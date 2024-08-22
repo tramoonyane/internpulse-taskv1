@@ -1,30 +1,25 @@
-// netlify/functions/deleteUserById.js
-
-const { startDatabase, stopDatabase } = require('../../src/config/db');
-const User = require('../../src/models/user.model');
 const mongoose = require('mongoose');
+const User = require('../../src/models/user.model');
 
 exports.handler = async (event) => {
-    await startDatabase();
     try {
         if (event.httpMethod !== 'DELETE') {
-            return { statusCode: 405, body: 'Method Not Allowed' };
+            return { statusCode: 405, body: JSON.stringify({ message: 'Method Not Allowed' }) };
         }
 
         const { id } = event.queryStringParameters;
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return { statusCode: 400, body: 'Invalid user ID' };
+        if (!id) {
+            return { statusCode: 400, body: JSON.stringify({ message: 'ID is required' }) };
         }
 
-        const user = await User.findByIdAndDelete(id);
-        if (!user) {
-            return { statusCode: 404, body: 'User not found' };
+        const result = await User.findByIdAndDelete(id);
+        if (!result) {
+            return { statusCode: 404, body: JSON.stringify({ message: 'User not found' }) };
         }
-        return { statusCode: 204, body: '' };
+
+        return { statusCode: 200, body: JSON.stringify({ message: 'User deleted successfully' }) };
     } catch (error) {
-        return { statusCode: 500, body: `Internal Server Error: ${error.message}` };
-    } finally {
-        await stopDatabase();
+        return { statusCode: 500, body: JSON.stringify({ message: `Internal Server Error: ${error.message}` }) };
     }
 };

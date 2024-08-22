@@ -5,7 +5,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true, // Ensure that each name is unique for simplicity.
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensure that each email is unique
+    trim: true,
+  },
+  age: {
+    type: Number,
+    required: true,
   },
 });
 

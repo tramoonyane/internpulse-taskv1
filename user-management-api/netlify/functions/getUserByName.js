@@ -1,29 +1,25 @@
-// netlify/functions/getUserByName.js
-
-const { startDatabase, stopDatabase } = require('../../src/config/db');
+const mongoose = require('mongoose');
 const User = require('../../src/models/user.model');
 
 exports.handler = async (event) => {
-    await startDatabase();
     try {
         if (event.httpMethod !== 'GET') {
-            return { statusCode: 405, body: 'Method Not Allowed' };
+            return { statusCode: 405, body: JSON.stringify({ message: 'Method Not Allowed' }) };
         }
 
         const { name } = event.queryStringParameters;
 
         if (!name) {
-            return { statusCode: 400, body: 'Name is required' };
+            return { statusCode: 400, body: JSON.stringify({ message: 'Name is required' }) };
         }
 
         const user = await User.findOne({ name });
         if (!user) {
-            return { statusCode: 404, body: 'User not found' };
+            return { statusCode: 404, body: JSON.stringify({ message: 'User not found' }) };
         }
+
         return { statusCode: 200, body: JSON.stringify(user) };
     } catch (error) {
-        return { statusCode: 500, body: `Internal Server Error: ${error.message}` };
-    } finally {
-        await stopDatabase();
+        return { statusCode: 500, body: JSON.stringify({ message: `Internal Server Error: ${error.message}` }) };
     }
 };
