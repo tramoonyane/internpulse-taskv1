@@ -3,7 +3,7 @@
   # No need to specify a publish directory for a backend API
   publish = "." # This is fine if there's no build output
 
-  # If you do not have a build step, you can use a no-op build command
+  # No-op build command for a backend API
   command = "echo 'No build step required' && exit 0"
 
 [[redirects]]
