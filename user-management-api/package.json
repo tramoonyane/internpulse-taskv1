@@ -7,10 +7,6 @@
     "test": "jest",
     "build": "echo 'No build step required' && exit 0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",

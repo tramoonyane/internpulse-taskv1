@@ -1,7 +1,10 @@
 [build]
   functions = "netlify/functions"
-  publish = "." # Use "." if there is no specific directory to publish
-  command = "npm run build" # Adjust this if you have a different build command
+  # No need to specify a publish directory for a backend API
+  publish = "." # This is fine if there's no build output
+
+  # If you do not have a build step, you can use a no-op build command
+  command = "echo 'No build step required' && exit 0"
 
 [[redirects]]
   from = "/*"
