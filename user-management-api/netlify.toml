@@ -1,7 +1,7 @@
 [build]
   functions = "netlify/functions"
-  publish = "public"
-  command = "npm run build" # or "next build" for Next.js
+  publish = "." # Use "." if there is no specific directory to publish
+  command = "npm run build" # Adjust this if you have a different build command
 
 [[redirects]]
   from = "/*"
@@ -10,19 +10,12 @@
 
 [functions]
   directory = "netlify/functions"
-  # Define maxDuration as an object with properties
   [functions.maxDuration]
-  seconds = 10 # maximum execution time in seconds
-  # Optionally, you can add other properties here if needed
-  # Example:
-  # external_node_modules = ["module-one", "module-two"]
-
+  seconds = 10
   node_bundler = "esbuild"
 
 [context.production.environment]
   DATABASE_URL = "your-database-url"
-  # Add other environment variables here
 
 [context.development.environment]
   DATABASE_URL = "your-development-database-url"
-  # Add other development environment variables here
